@@ -22,30 +22,38 @@ Although this project is technically independent from **JuliVQC.jl**, it aims to
 
 ## ✨ Features
 
-- **State-vector simulation engine**  
-  Efficient simulation of quantum states with arbitrary single- and two-qubit gates.
+MyJuliVQC provides a clean, modular, and research-oriented implementation of variational quantum circuit simulation.  
+Although designed for clarity and educational value, the package covers a comprehensive set of essential tools for near-term quantum algorithm prototyping.
 
-- **Modular quantum circuit construction**  
-  Flexible circuit representation with support for basic and custom gate definitions.
+### 🚀 Core Features
 
-- **Differentiable variational circuits**  
-  Backpropagation-compatible parameterized circuits (depending on your implementation).
+- **State-Vector Simulation Engine**  
+  Fully supports quantum state initialization, evolution, and measurement with user-defined or built-in quantum gates.
 
-- **VQE / QML application support**  
-  Tools for building Hamiltonians, measuring observables, and optimizing circuit parameters.
+- **Modular Quantum Circuit Construction**  
+  Flexible `QCircuit` structure with intuitive APIs for assembling parameterized quantum circuits.
 
-- **Readable and educational codebase**  
-  Designed for clarity and maintainability — ideal for research, teaching, and extension.
+- **Support for Parameterized Gates (VQC-ready)**  
+  Native support for variational parameters, enabling VQE, QML models, and other hybrid quantum-classical algorithms.
 
-- **Standalone implementation**  
-  Fully engineered from scratch except for portions explicitly adapted under GPL-3.0 compliance.
+- **Hamiltonian & Observable Utilities**  
+  Built-in tools for constructing qubit Hamiltonians, evaluating expectation values, and computing gradient-based losses.
 
-> Performance note:  
-> MyJuliVQC currently focuses on correctness and clarity rather than raw speed.  
-> The implementation is functional and reliable, though its performance is presently much slower than JuliVQC.  
-> Despite this, it has been verified by multiple tests and is suitable for research prototyping and algorithmic exploration.
+- **Readable, Transparent Codebase**  
+  MyJuliVQC focuses on correctness and clarity, making it ideal for learning, research demonstrations, and rapid prototyping.
 
----
+- **Algorithm-Guided Implementation**  
+  Core algorithms follow the descriptions in variational quantum simulation literature, ensuring theoretical fidelity.
+
+- **Self-Contained Execution**  
+  No external simulator required — MyJuliVQC runs using a standalone Julia implementation without depending on external quantum SDKs.
+
+### ⚡ Performance Notice
+
+While MyJuliVQC prioritizes clarity and modularity over raw performance, its design remains fully compatible with VQC workflows.  
+Even with modest speed, the package provides a reliable foundation for implementing, analyzing, and experimenting with variational algorithms.
+
+
 
 ## 📦 Installation
 
