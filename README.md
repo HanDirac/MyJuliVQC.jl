@@ -3,8 +3,10 @@
 [![Build Status](https://github.com/HanDirac/MyJuliVQC.jl/actions/workflows/CI.yml/badge.svg?branch=master)](https://github.com/HanDirac/MyJuliVQC.jl/actions/workflows/CI.yml?query=branch%3Amaster)
 [![Coverage](https://codecov.io/gh/HanDirac/MyJuliVQC.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/HanDirac/MyJuliVQC.jl)
 
-**MyJuliVQC.jl** is an independent Julia implementation of variational quantum circuit (VQC) simulation methods inspired by the original research work and design philosophy of JuliVQC.  
-This package reimplements key algorithms based on the corresponding scientific publications, while adopting a clean and modular architecture tailored for clarity, extensibility, and educational use.
+**MyJuliVQC.jl** is an independent Julia implementation of variational quantum circuit (VQC) simulation methods inspired by the original research work and design philosophy of JuliVQC by Weiyou Liao.  
+This package reimplements key algorithms based on the corresponding scientific publication:
+**[JuliVQC: an Efficient Variational Quantum Circuit Simulator for Near-Term Quantum Algorithms](https://link.springer.com/article/10.1140/epjs/s11734-025-01628-6))**
+while adopting a clean and modular architecture tailored for clarity, extensibility, and educational use.
 
 Although this project is technically independent from **JuliVQC.jl**, it aims to reproduce a similar set of functionalities in a self-contained way, making it suitable for:
 
