@@ -3,6 +3,143 @@
 [![Build Status](https://github.com/HanDirac/MyJuliVQC.jl/actions/workflows/CI.yml/badge.svg?branch=master)](https://github.com/HanDirac/MyJuliVQC.jl/actions/workflows/CI.yml?query=branch%3Amaster)
 [![Coverage](https://codecov.io/gh/HanDirac/MyJuliVQC.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/HanDirac/MyJuliVQC.jl)
 
+**MyJuliVQC.jl** is an independent Julia implementation of variational quantum circuit (VQC) simulation methods inspired by the original research work and design philosophy of JuliVQC.  
+This package reimplements key algorithms based on the corresponding scientific publications, while adopting a clean and modular architecture tailored for clarity, extensibility, and educational use.
+
+Although this project is technically independent from **JuliVQC.jl**, it aims to reproduce a similar set of functionalities in a self-contained way, making it suitable for:
+
+- building and simulating parameterized quantum circuits,
+- exploring variational quantum algorithms,
+- prototyping quantum machine learning models,
+- and understanding how circuit-level simulation works under the hood in Julia.
+
+> Note: This repository includes several functions adapted from JuliVQC's open-source implementation when the papers did not explicitly specify algorithmic details.  
+> Following GPL-3.0 licensing requirements, this project is also released under GPL-3.0.
+
+---
+
+## ✨ Features
+
+- **State-vector simulation engine**  
+  Efficient simulation of quantum states with arbitrary single- and two-qubit gates.
+
+- **Modular quantum circuit construction**  
+  Flexible circuit representation with support for basic and custom gate definitions.
+
+- **Differentiable variational circuits**  
+  Backpropagation-compatible parameterized circuits (depending on your implementation).
+
+- **VQE / QML application support**  
+  Tools for building Hamiltonians, measuring observables, and optimizing circuit parameters.
+
+- **Readable and educational codebase**  
+  Designed for clarity and maintainability — ideal for research, teaching, and extension.
+
+- **Standalone implementation**  
+  Fully engineered from scratch except for portions explicitly adapted under GPL-3.0 compliance.
+
+> Performance note:  
+> MyJuliVQC currently focuses on correctness and clarity rather than raw speed.  
+> The implementation is functional and reliable, though its performance is presently much slower than JuliVQC.  
+> Despite this, it has been verified by multiple tests and is suitable for research prototyping and algorithmic exploration.
+
+---
+
+## 📦 Installation
+
+Install MyJuliVQC directly from GitHub:
+
+```julia
+julia> ] add https://github.com/<your-username>/MyJuliVQC.jl
+julia> using MyJuliVQC
+```
+
+---
+
+## 🚀 Quick Example
+
+A minimal example of preparing a 2-qubit state and applying gates:
+
+```julia
+using MyJuliVQC
+
+# Construct a 2-qubit state |00⟩
+ψ = StateVector(2)
+
+# Apply gates
+apply!(ψ, H, 1)
+apply!(ψ, CNOT, 1, 2)
+
+println(ψ)
+```
+
+*(Modify according to your actual API.)*
+
+---
+
+## 📚 Documentation
+
+Documentation is built using Documenter.jl.
+
+You can view the online documentation at:
+
+https://<your-username>.github.io/MyJuliVQC.jl
+
+(To enable this, make sure GitHub Pages and Documenter CI workflow are set up.)
+
+---
+
+## 🧪 Testing
+
+Tests are located in:
+
+```
+test/
+```
+
+Run using:
+
+```julia
+julia> ] test MyJuliVQC
+```
+
+---
+
+## 📂 Project Structure
+
+```
+MyJuliVQC.jl/
+  src/
+  test/
+  docs/
+  examples/   (optional)
+  Project.toml
+  LICENSE
+  README.md
+```
+
+---
+
+## 🔬 Scientific Background
+
+MyJuliVQC is developed based on the variational quantum simulation framework described in the following works:
+
+- (Add your target papers here)
+- (Include papers corresponding to JuliVQC if needed)
+
+This package reimplements the algorithms described therein with additional engineering choices for clarity and modularity.
+
+---
+
+## 👤 Authors
+
+**Han Hao (韩昊)**  
+Tang Aoqing Honor Program in Science  
+Jilin University  
+Email: 515673679@qq.com
+
+---
+
 ## Threading Control (Added in This Fork)
 
 ⚠️ **Note:** This feature is **not part of the original MyJuliVQC** package.  
