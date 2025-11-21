@@ -154,13 +154,9 @@ You can use these examples as a starting point for building VQE solvers, variati
 
 ## 📚 Documentation
 
-Documentation is built using Documenter.jl.
+The documentation for **MyJuliVQC** will be available here:
 
-You can view the online documentation at:
-
-https://<your-username>.github.io/MyJuliVQC.jl
-
-(To enable this, make sure GitHub Pages and Documenter CI workflow are set up.)
+👉 https://HanDirac.github.io/MyJuliVQC.jl/
 
 ---
 
