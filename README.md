@@ -66,26 +66,83 @@ julia> using MyJuliVQC
 
 ---
 
-## 🚀 Quick Example
+## 🚀 Quick Examples
 
-A minimal example of preparing a 2-qubit state and applying gates:
+Here are a few minimal examples demonstrating how to use **MyJuliVQC** to construct and simulate variational quantum circuits.  
+The API is designed to be intuitive and lightweight, making it easy to explore both basic quantum operations and variational workflows.
+
+---
+
+### Example 1: Preparing a Bell State
+
+The following script initializes a 2-qubit state, applies a simple quantum circuit, and performs a measurement:
 
 ```julia
 using MyJuliVQC
 
-# Construct a 2-qubit state |00⟩
+# Create a 2-qubit state |00⟩
 ψ = StateVector(2)
 
-# Apply gates
-apply!(ψ, H, 1)
-apply!(ψ, CNOT, 1, 2)
+# Build a quantum circuit
+circuit = QCircuit()
+push!(circuit, HGate(1))          # Hadamard on qubit 1
+push!(circuit, CNOTGate(1, 2))    # Controlled-NOT from qubit 1 to 2
 
+# Apply the circuit to the state
+apply!(circuit, ψ)
+
+# Inspect the resulting state
+println("Final state vector:")
 println(ψ)
+
+# Measure qubit 1
+outcome, prob = measure!(ψ, 1)
+println("Measured qubit 1 → $outcome   (probability = $prob)")
 ```
 
-*(Modify according to your actual API.)*
+---
+
+### Example 2: A Simple Variational Circuit
+
+This example shows how to construct a parameterized circuit and evaluate a loss function:
+
+```julia
+using MyJuliVQC
+
+L = 3                        # number of qubits
+ψ0 = StateVector(L)          # initial state
+
+# Build a simple variational circuit
+circuit = QCircuit()
+
+# Layer 1: single-qubit rotations
+for i in 1:L
+    push!(circuit, RzGate(i, rand(), isparas=true))
+    push!(circuit, RyGate(i, rand(), isparas=true))
+    push!(circuit, RzGate(i, rand(), isparas=true))
+end
+
+# Layer 2: entangling + rotations
+for i in 1:L-1
+    push!(circuit, CNOTGate(i, i+1))
+end
+for i in 1:L
+    push!(circuit, RxGate(i, rand(), isparas=true))
+end
+
+# Define a target state (example purposes only)
+target = StateVector(rand(ComplexF64, 2^L))
+normalize!(target)
+
+# Define a simple loss function
+loss(c) = distance(target, c * ψ0)
+
+println("Loss value: ", loss(circuit))
+```
 
 ---
+
+You can use these examples as a starting point for building VQE solvers, variational classifiers, and other hybrid quantum-classical applications.
 
 ## 📚 Documentation
 
