@@ -160,6 +160,38 @@ The documentation for **MyJuliVQC** will be available here:
 
 ---
 
+### Local Deployment 🖥️
+
+If you would like to build and view the documentation locally (once the docs are added),  
+you may follow the typical Julia *Documenter.jl* workflow:
+
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/HanDirac/MyJuliVQC.jl.git
+   cd MyJuliVQC.jl
+   ```
+   
+2. Install documentation dependencies inside the docs environment:
+    ```julia
+     cd docs
+     julia --project=.
+     using Pkg
+     Pkg.instantiate()
+     ```
+
+3. Build the documentation:
+    ```julia
+     julia make.jl
+     ```
+
+4. View the documentation:
+- The built HTML file will be located at:
+  ```
+  docs/build/index.html
+  ```
+- Open this file in your browser to preview the documentation locally.
+
+---
 ## 🧪 Testing
 
 Tests are located in:
