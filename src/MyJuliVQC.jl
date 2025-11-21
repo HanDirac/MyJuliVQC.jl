@@ -1,11 +1,7 @@
 module MyJuliVQC
 
-<<<<<<< HEAD
 using LinearAlgebra
 using Random
-=======
-using LinearAlgebra, TensorOperations
->>>>>>> 2a33fd454380f1bd988e284a5fedd1e28e2a6bb6
 
 # Unified exports
 export StateVector, DensityMatrix, QCircuit
@@ -110,11 +106,7 @@ include("expectation.jl")
 
 ####  gradient ####
 include("gradient.jl")
-<<<<<<< HEAD
 export gradient, LossExpectationRealSV, LossExpectationRealDM
-=======
-export gradient
->>>>>>> 2a33fd454380f1bd988e284a5fedd1e28e2a6bb6
 
 
 
