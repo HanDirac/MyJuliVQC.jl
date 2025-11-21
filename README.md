@@ -60,7 +60,7 @@ Even with modest speed, the package provides a reliable foundation for implement
 Install MyJuliVQC directly from GitHub:
 
 ```julia
-julia> ] add https://github.com/<your-username>/MyJuliVQC.jl
+julia> ] add https://github.com/HanDirac/MyJuliVQC.jl
 julia> using MyJuliVQC
 ```
 
