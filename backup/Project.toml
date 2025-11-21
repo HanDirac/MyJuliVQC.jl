@@ -6,21 +6,16 @@ version = "1.0.0-DEV"
 [deps]
 BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 CSTParser = "00ebfdb7-1f24-5e51-bd34-a7502290713f"
-ChainRulesCore = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 JuliaFormatter = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
-PackageCompiler = "9b87118b-4619-50d2-8e1e-99f35a4d4d9d"
 PkgTemplates = "14b8a8f1-9102-5b29-a752-f990bacb7fe1"
-Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
 StaticLint = "b3cc710f-9c33-5bdb-a03d-a94903873e97"
 TensorOperations = "6aa20fa7-93e2-5fca-9bc0-fbd0db3c71a2"
 Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
 
 [compat]
-ChainRulesCore = "1"
-Zygote = "0.6.67, 0.7"
 julia = "1.10"
 
 [extras]

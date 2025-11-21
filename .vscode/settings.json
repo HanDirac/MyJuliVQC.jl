@@ -1,0 +1,5 @@
+{
+  "julia.format.enable": true,
+  // 指定使用 JuliaFormatter
+  "julia.format.provider": "JuliaFormatter"
+}
