@@ -192,21 +192,6 @@ you may follow the typical Julia *Documenter.jl* workflow:
 - Open this file in your browser to preview the documentation locally.
 
 ---
-## 🧪 Testing
-
-Tests are located in:
-
-```
-test/
-```
-
-Run using:
-
-```julia
-julia> ] test MyJuliVQC
-```
-
----
 
 ## 📂 Project Structure
 
@@ -215,7 +200,6 @@ MyJuliVQC.jl/
   src/
   test/
   docs/
-  examples/   (optional)
   Project.toml
   LICENSE
   README.md
@@ -223,20 +207,10 @@ MyJuliVQC.jl/
 
 ---
 
-## 🔬 Scientific Background
-
-MyJuliVQC is developed based on the variational quantum simulation framework described in the following works:
-
-- (Add your target papers here)
-- (Include papers corresponding to JuliVQC if needed)
-
-This package reimplements the algorithms described therein with additional engineering choices for clarity and modularity.
-
----
 
 ## 👤 Authors
 
-**Han Hao (韩昊)**  
+**Han Hao (郝瀚)**  
 Tang Aoqing Honor Program in Science  
 Jilin University  
 Email: 515673679@qq.com
