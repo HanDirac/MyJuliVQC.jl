@@ -39,8 +39,13 @@ function build_circuit(; L=3, depth=4, rng::AbstractRNG=Random.default_rng())
 end
 
 # Loss and gradient utilities (directly exported by the package)
+<<<<<<< HEAD
 #const LossExpectationRealSV = MyJuliVQC.LossExpectationRealSV
 #const LossExpectationRealDM = MyJuliVQC.LossExpectationRealDM
+=======
+const LossExpectationRealSV = MyJuliVQC.LossExpectationRealSV
+const LossExpectationRealDM = MyJuliVQC.LossExpectationRealDM
+>>>>>>> 2a33fd454380f1bd988e284a5fedd1e28e2a6bb6
 const gradientMJVQC         = MyJuliVQC.gradient
 #const apply_ad              = MyJuliVQC.apply_ad
 

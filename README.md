@@ -108,6 +108,7 @@ This example shows how to construct a parameterized circuit and evaluate a loss 
 
 ```julia
 using MyJuliVQC
+<<<<<<< HEAD
 const gradientMJVQC = MyJuliVQC.gradient
 
 # 1. initial state
@@ -115,6 +116,13 @@ L  = 3                      # number of qubits
 ψ0 = StateVector(L)         # |000⟩
 
 # 2. construct a simple variational circuit
+=======
+
+L = 3                        # number of qubits
+ψ0 = StateVector(L)          # initial state
+
+# Build a simple variational circuit
+>>>>>>> 2a33fd454380f1bd988e284a5fedd1e28e2a6bb6
 circuit = QCircuit()
 
 # Layer 1: single-qubit rotations
@@ -132,6 +140,7 @@ for i in 1:L
     push!(circuit, RxGate(i, rand(), isparas=true))
 end
 
+<<<<<<< HEAD
 # 3. define a simple operator H
 H = QubitsOperator([QubitsTerm(1=>"Z", 2=>"Z", 3=>"Z"; coeff=1.0)])
 
@@ -146,6 +155,16 @@ grads = gradientMJVQC(loss_obj, circuit)
 println("Gradient from MyJuliVQC.gradient:")
 println(grads)
 
+=======
+# Define a target state (example purposes only)
+target = StateVector(rand(ComplexF64, 2^L))
+normalize!(target)
+
+# Define a simple loss function
+loss(c) = distance(target, c * ψ0)
+
+println("Loss value: ", loss(circuit))
+>>>>>>> 2a33fd454380f1bd988e284a5fedd1e28e2a6bb6
 ```
 
 ---
