@@ -1,1 +1,12 @@
+name = "MyJuliVQCDocs"
+uuid = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+authors = ["Han Hao <515673679@qq.com>"]
+version = "0.1.0"
+
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+MyJuliVQC = "5b8b8ab6-b1cf-4eaf-9caf-6fc82bcbcfec"
+
+[compat]
+Documenter = "1"
 
