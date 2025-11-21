@@ -208,14 +208,13 @@ MyJuliVQC.jl/
 ---
 
 
-## 👤 Authors
+## 👤 Author
 
 **Han Hao (郝瀚)**  
-Tang Aoqing Honor Program in Science  
-Jilin University  
+School of Physics, Jilin University  
+(Part of the development was completed during my research assistantship at the Hefei National Laboratory.)  
 Email: 515673679@qq.com
 
----
 
 ## Threading Control (Added in This Fork)
 
