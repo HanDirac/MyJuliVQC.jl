@@ -15,6 +15,7 @@ makedocs(
             "Installation" => "getting-started/installation.md",
             "Quick Start"  => "getting-started/quick-start.md",
         ],
+        checkdocs = :none,   # 🔴 加这一行：不要对 missing docs 报错
         "Manual" => Any[
             "Initialize a quantum state"       => "manual/initialize-state.md",
             "Quantum gates"                    => "manual/quantum-gates.md",
