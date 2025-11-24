@@ -1,6 +1,6 @@
 # Installation
 
-## 1: Create a Dedicated Julia Environment (Highly Recommended)
+## 1. Create a Dedicated Julia Environment (Highly Recommended)
 
 We strongly recommend creating a dedicated Julia environment for MyJuliVQC.jl to prevent dependency conflicts with other projects. Follow these steps:
 
@@ -18,13 +18,17 @@ We strongly recommend creating a dedicated Julia environment for MyJuliVQC.jl to
 ## 2. Install MyJuliVQC
 
 MyJuliVQC can be installed directly from GitHub:
+
     ```julia
     julia> ] add https://github.com/HanDirac/MyJuliVQC.jl
     ```
+
 Then load the package:
+    
     ```julia
     julia> using MyJuliVQC
     ```
+
 If this succeeds without errors, the installation is complete.
 
 ---
