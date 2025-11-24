@@ -56,6 +56,8 @@ Even with modest speed, the package provides a reliable foundation for implement
 
 
 ## 📦 Installation
+Unlike the original **JuliVQC.jl** package, **MyJuliVQC does *not* depend on QuantumCircuits.jl**.
+You do **not** need to install `QuantumCircuits.jl` before using MyJuliVQC.
 
 Install MyJuliVQC directly from GitHub:
 
