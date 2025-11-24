@@ -1,6 +1,6 @@
 # Installation
 
-## Step 1: Create a Dedicated Julia Environment (Highly Recommended)
+## 1: Create a Dedicated Julia Environment (Highly Recommended)
 
 We strongly recommend creating a dedicated Julia environment for MyJuliVQC.jl to prevent dependency conflicts with other projects. Follow these steps:
 
