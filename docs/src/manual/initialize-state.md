@@ -27,6 +27,10 @@ mixed_state = DensityMatrix(n)
 custom_pure_state = StateVector([0.0, 0.1, 0.0, 0.0])
 
 # Custom mixed state (user-specified flattened matrix)
+# NOTE:
+#   If a vector is used to construct a DensityMatrix,
+#   **the vector must follow column-major (column-first) order**.
+#   That is, the matrix is flattened by stacking all columns in sequence.
 custom_mixed_state = DensityMatrix([0.5, -0.5im, 0.5im, 0.5]) #column-major order)
 
 # -------------------------------------------------------
