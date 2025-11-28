@@ -96,7 +96,7 @@ include("measure!.jl")
 
 ####  QubitsTerm ####
 include("qubits_term.jl")
-export QubitsTerm
+export QubitsTerm, simplify!
 
 ####  QubitsOperator ####
 include("qubitsoperator.jl")

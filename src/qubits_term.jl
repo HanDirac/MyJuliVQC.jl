@@ -123,6 +123,7 @@ t2 = QubitsTerm(2=>σx, 4=>"Z"; coeff=1.0+0.0im)
 
 # Equivalent: constructing from a Dict
 t3 = QubitsTerm(Dict(1=>"X", 3=>"Y"); coeff=0.5)
+```
 """
 QubitsTerm(x::Pair{Int, <:Union{AbstractString, AbstractMatrix}}...; coeff::Number=1.) = QubitsTerm(
 	Dict(x...), coeff=coeff)
