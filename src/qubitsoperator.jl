@@ -19,6 +19,7 @@ Example:
 ```julia
 op = QubitsOperator()
 push!(op, QubitsTerm(1=>"X", 2=>"Z"; coeff=0.5))
+```
 """
 struct QubitsOperator <: QuantumHamiltonian
     terms::Vector{QubitsTerm}
