@@ -52,9 +52,9 @@ my_channel = QuantumMap(1, [K1, K2])
 For convenience, MyJuliVQC provides several commonly used **single-qubit** quantum channels as simple wrappers of QuantumMap.
 These include:
 
-- `AmplitudeDamping(pos, p)`
-- `PhaseDamping(pos, p)`
-- `Depolarizing(pos, p)`
+- `AmplitudeDamping(pos; γ)`
+- `PhaseDamping(pos; γ)`
+- `Depolarizing(pos; p)`
 
 Each constructor automatically generates the corresponding Kraus operators and returns a `QuantumMap`.
 (Internally, these functions do not use any hardware-specific optimizations; they are implemented in a clean and transparent way suitable for research and educational use.)
@@ -63,5 +63,7 @@ Example:
 ```julia
 using MyJuliVQC
 
-channel = AmplitudeDamping(1, 0.1)
+channel = AmplitudeDamping(1; γ=0.1)
+channelb = PhaseDamping(2; γ=0.2)
+channelc = Depolarizing(3; p=0.3)
 ```
