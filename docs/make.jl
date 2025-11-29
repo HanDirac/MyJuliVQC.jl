@@ -26,7 +26,7 @@ makedocs(
         ],
         "Examples" => Any[
             "Creating a Variational Quantum Circuit" => "examples/vqc-example.md",
-            "A Simple Application with Flux"         => "examples/flux-example.md",
+            "A Simple Application of Gradient Descent"         => "examples/gd-example.md",
             "Utility Functions"                      => "examples/utilities.md",
         ],
     ],
