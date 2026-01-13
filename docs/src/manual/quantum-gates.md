@@ -19,8 +19,7 @@ Internally, MyJuliVQC uses **column-major** ordering (Julia’s default) for sto
 More specifically, suppose `QuantumGate(positions, data)` (where $\texttt{positions} = (j_1, j_2, \dots, j_l)$) represents an operator $\hat{O}$ acting on the Hilbert subspace associated with the qubits ${j_1}, {j_2}, \ldots, {j_l}$. Let
 $|x_{j_1}=k_1,\space x_{j_2}=k_2,\space \cdots, \space x_{j_l}=k_l\rangle$
 denote a computational basis vector in this Hilbert space. Then
-$$
-\texttt{data}[a,b]
+$$\texttt{data}[a,b]
 =
 \langle
 x_{j_1}=a_1,x_{j_2}=a_2,\dots,x_{j_l}=a_l
