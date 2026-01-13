@@ -42,7 +42,7 @@ $$
 0 & u_{11} & 0 & u_{12} \\
 0 & 0 & 1 & 0 \\
 0 & u_{21} & 0 & u_{22}
-\end{pmatrix},$$
+\end{pmatrix}$$
 where
 $$\begin{pmatrix} u_{11} & u_{12} \\ u_{21} & u_{22} \end{pmatrix}$$
 denotes the single-qubit unitary acting on the target qubit when the control qubit takes the value $1$.
@@ -57,7 +57,7 @@ $$\texttt{data}
 0 & 1 & 0 & 0 \\
 0 & 0 & u_{11} & u_{12} \\
 0 & 0 & u_{21} & u_{22}
-\end{pmatrix},$$
+\end{pmatrix}$$
 
 If we change the control qubit of this two-qubit controlled gate to be the 4th qubit and the target qubit to be the 2nd qubit, then we may set
 $$\texttt{positions}=(4,2),\space
@@ -68,7 +68,7 @@ $$\texttt{positions}=(4,2),\space
 0 & u_{11} & 0 & u_{12} \\
 0 & 0 & 1 & 0 \\
 0 & u_{21} & 0 & u_{22}
-\end{pmatrix},$$
+\end{pmatrix}$$
 or
 $$\texttt{positions}=(2,4),\space
 \texttt{data}
@@ -78,7 +78,7 @@ $$\texttt{positions}=(2,4),\space
 0 & 1 & 0 & 0 \\
 0 & 0 & u_{11} & u_{12} \\
 0 & 0 & u_{21} & u_{22}
-\end{pmatrix}.$$
+\end{pmatrix}$$
 
 ---
 
