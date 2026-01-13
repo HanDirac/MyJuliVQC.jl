@@ -13,6 +13,7 @@ where:
 
 Internally, MyJuliVQC uses **column-major** ordering (Julia’s default) for storing gate matrices and state data.
 
+
 ## Matrix Element Convention for `QuantumGate`
 
 More specifically, suppose `QuantumGate(positions, data)` (where $\texttt{positions} = (j_1, j_2, \dots, j_l)$) represents an operator $\hat{O}$ acting on the Hilbert subspace associated with the qubits ${j_1}, {j_2}, \ldots, {j_l}$. Let
@@ -27,8 +28,7 @@ x_{j_1}=a_1,x_{j_2}=a_2,\dots,x_{j_l}=a_l
 \hat{O}
 \mid
 x_{j_1}=b_1,x_{j_2}=b_2,\dots,x_{j_l}=b_l
-\rangle,
-$$
+\rangle,$$
 where $a,b \in {1,2,\dots,2^l}$, and the binary expansions of $(a-1)$ and $(b-1)$ correspond to $(a_l,\dots,a_2,a_1)$ and $(b_l,\dots,b_2,b_1)$, respectively.
 
 As a concrete example, consider a two-qubit controlled gate whose control qubit is the 2nd qubit and target qubit is the 4th qubit. If we take
@@ -42,8 +42,7 @@ $$
 0 & u_{11} & 0 & u_{12} \\
 0 & 0 & 1 & 0 \\
 0 & u_{21} & 0 & u_{22}
-\end{pmatrix},
-$$
+\end{pmatrix},$$
 where
 $$\begin{pmatrix} u_{11} & u_{12} \\ u_{21} & u_{22} \end{pmatrix}$$
 denotes the single-qubit unitary acting on the target qubit when the control qubit takes the value $1$.
@@ -51,20 +50,17 @@ denotes the single-qubit unitary acting on the target qubit when the control qub
 If we swap the order of `positions`, i.e. take
 `positions} = (4,2)`,
 then `data` should instead be written as
-$$
-\texttt{data}
+$$\texttt{data}
 =
 \begin{pmatrix}
 1 & 0 & 0 & 0 \\
 0 & 1 & 0 & 0 \\
 0 & 0 & u_{11} & u_{12} \\
 0 & 0 & u_{21} & u_{22}
-\end{pmatrix},
-$$
+\end{pmatrix},$$
 
 If we change the control qubit of this two-qubit controlled gate to be the 4th qubit and the target qubit to be the 2nd qubit, then we may set
-$$
-\texttt{positions}=(4,2),\space
+$$\texttt{positions}=(4,2),\space
 \texttt{data}
 =
 \begin{pmatrix}
@@ -72,11 +68,9 @@ $$
 0 & u_{11} & 0 & u_{12} \\
 0 & 0 & 1 & 0 \\
 0 & u_{21} & 0 & u_{22}
-\end{pmatrix},
-$$
+\end{pmatrix},$$
 or
-$$
-\texttt{positions}=(2,4),\space
+$$\texttt{positions}=(2,4),\space
 \texttt{data}
 =
 \begin{pmatrix}
@@ -84,8 +78,7 @@ $$
 0 & 1 & 0 & 0 \\
 0 & 0 & u_{11} & u_{12} \\
 0 & 0 & u_{21} & u_{22}
-\end{pmatrix}.
-$$
+\end{pmatrix}.$$
 
 ---
 
