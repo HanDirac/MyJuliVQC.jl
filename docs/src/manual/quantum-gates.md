@@ -11,6 +11,23 @@ where:
 - `positions` specifies the qubit indices that the gate acts on, e.g. `(1, 3)` for a two-qubit gate on qubits 1 and 3;
 - `data` is the raw matrix of the gate, which should be a unitary matrix of size `2^k × 2^k` for a `k`-qubit gate.
 
+More specifically, suppose `QuantumGate(positions, data)` (where $\texttt{positions} = (j_1, j_2, \dots, j_l)$) represents an operator $\hat{O}$ acting on the Hilbert subspace associated with the qubits ${j_1}, {j_2}, \ldots, {j_l}$. Let
+$|x_{j_1}=k_1,\space x_{j_2}=k_2,\space \cdots, \space x_{j_l}=k_l\rangle$
+denote a computational basis vector in this Hilbert space. Then
+```latex
+\begin{equation}
+\texttt{data}[a,b]
+=
+\langle
+x_{j_1}=a_1,x_{j_2}=a_2,\dots,x_{j_l}=a_l
+\mid
+\hat{O}
+\mid
+x_{j_1}=b_1,x_{j_2}=b_2,\dots,x_{j_l}=b_l
+\rangle,
+\end{equation}
+```
+
 Internally, MyJuliVQC uses **column-major** ordering (Julia’s default) for storing gate matrices and state data.
 
 ---
