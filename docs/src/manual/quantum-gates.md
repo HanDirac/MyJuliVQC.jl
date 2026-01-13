@@ -11,6 +11,10 @@ where:
 - `positions` specifies the qubit indices that the gate acts on, e.g. `(1, 3)` for a two-qubit gate on qubits 1 and 3;
 - `data` is the raw matrix of the gate, which should be a unitary matrix of size `2^k × 2^k` for a `k`-qubit gate.
 
+Internally, MyJuliVQC uses **column-major** ordering (Julia’s default) for storing gate matrices and state data.
+
+## Matrix Element Convention for `QuantumGate`
+
 More specifically, suppose `QuantumGate(positions, data)` (where $\texttt{positions} = (j_1, j_2, \dots, j_l)$) represents an operator $\hat{O}$ acting on the Hilbert subspace associated with the qubits ${j_1}, {j_2}, \ldots, {j_l}$. Let
 $|x_{j_1}=k_1,\space x_{j_2}=k_2,\space \cdots, \space x_{j_l}=k_l\rangle$
 denote a computational basis vector in this Hilbert space. Then
@@ -27,8 +31,79 @@ x_{j_1}=b_1,x_{j_2}=b_2,\dots,x_{j_l}=b_l
 \rangle,
 \end{equation}
 ```
+where $a,b \in {1,2,\dots,2^l}$, and the binary expansions of $(a-1)$ and $(b-1)$ correspond to $(a_l,\dots,a_2,a_1)$ and $(b_l,\dots,b_2,b_1)$, respectively.
 
-Internally, MyJuliVQC uses **column-major** ordering (Julia’s default) for storing gate matrices and state data.
+As a concrete example, consider a two-qubit controlled gate whose control qubit is the 2nd qubit and target qubit is the 4th qubit. If we take
+```latex
+\[
+\texttt{positions} = (2,4),
+\]
+```
+then the corresponding `data` matrix can be written as
+```latex
+\begin{equation}
+\texttt{data}
+=
+\begin{pmatrix}
+1 & 0 & 0 & 0 \\
+0 & u_{11} & 0 & u_{12} \\
+0 & 0 & 1 & 0 \\
+0 & u_{21} & 0 & u_{22}
+\end{pmatrix},
+\end{equation}
+```
+where
+$\begin{pmatrix} u_{11} & u_{12} \ u_{21} & u_{22} \end{pmatrix}$
+denotes the single-qubit unitary acting on the target qubit when the control qubit takes the value $1$.
+
+If we swap the order of `positions`, i.e. take
+```latex
+\[
+\texttt{positions} = (4,2),
+\]
+```
+then `data` should instead be written as
+```latex
+\begin{equation}
+\texttt{data}
+=
+\begin{pmatrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & u_{11} & u_{12} \\
+0 & 0 & u_{21} & u_{22}
+\end{pmatrix},
+\end{equation}
+```
+
+If we change the control qubit of this two-qubit controlled gate to be the 4th qubit and the target qubit to be the 2nd qubit, then we may set
+```latex
+\begin{equation}
+\texttt{positions}=(4,2),\space
+\texttt{data}
+=
+\begin{pmatrix}
+1 & 0 & 0 & 0 \\
+0 & u_{11} & 0 & u_{12} \\
+0 & 0 & 1 & 0 \\
+0 & u_{21} & 0 & u_{22}
+\end{pmatrix},
+\end{equation}
+```
+or
+```latex
+\begin{equation}
+\texttt{positions}=(2,4),\space
+\texttt{data}
+=
+\begin{pmatrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & u_{11} & u_{12} \\
+0 & 0 & u_{21} & u_{22}
+\end{pmatrix}.
+\end{equation}
+```
 
 ---
 
