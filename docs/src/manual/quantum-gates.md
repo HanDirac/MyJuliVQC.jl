@@ -88,6 +88,26 @@ For convenience, MyJuliVQC also provides named constructors for commonly used qu
 
 `XGate`, `YGate`, `ZGate`, `SGate`, `HGate`, `sqrtXGate`, `sqrtYGate`, `TGate`, `SWAPGate`, `iSWAPGate`, `CZGate`, `CNOTGate`, `TOFFOLIGate`, `FREDKINGate`, `RxGate`, `RyGate`,`RzGate`, `CRxGate`, `CRyGate`, `CRzGate`, `FSIMGate`. 
 
+Note:
+- For parameter-free single-qubit gates such as `XGate`, `YGate`, `ZGate`, `SGate`, `HGate`, `sqrtXGate`, `sqrtYGate` and `TGate`, please refer to the usage of `XGate` in the **Examples** section below.
+- For parameter-free two-qubit gates such as `SWAPGate`, `iSWAPGate`, `CZGate` and  `CNOTGate`, please refer to the usage of `CNOTGate` in the **Examples** section below.
+- For parameter-free three-qubit gates such as `TOFFOLIGate` and `FREDKINGate`, please refer to the usage of `TOFFOLIGate` in the **Examples** section below.
+- For `RxGate`, `RyGate`, and `RzGate`, please refer to the usage of `RxGate` in the **Examples** section.
+- For `CRxGate`, `CRyGate`, and `CRzGate`, please refer to the usage of `CRxGate` in the **Examples** section.
+- For `FSIMGate`, please refer to the **Examples** section.
+- For `CNOTGate`, `CRxGate`, `CRyGate`, and `CRzGate`, the first element in `positions` specifies the control qubit, and the second element specifies the target qubit.
+- For `TOFFOLIGate`, the first, second, and third elements in `positions` specify the first control qubit, second control qubit, and target qubit, respectively.
+- For `FREDKINGate`, the first, second, and third elements in `positions` specify the control qubit, first target qubit, and second target qubit, respectively.
+- For `FSIMGate`, the first parameter is $\theta$, the second parameter is $\phi$, and
+$$\texttt{data}
+=
+\begin{pmatrix}
+1 & 0 & 0 & 0 \\
+0 & \cos(\theta) & -i\sin(\theta) & 0 \\
+0 & -i\sin(\theta) & \cos(\theta) & 0 \\
+0 & 0 & 0 & e^{-i\phi}
+\end{pmatrix}.$$ 
+
 In the current implementation of **MyJuliVQC**, these special gates are implemented as
 thin wrappers around the generic `QuantumGate` constructor. This design keeps the code
 transparent and easy to read. Future versions may introduce specialized, highly optimized
@@ -159,5 +179,17 @@ non_para_Rx = RxGate(n, θ; isparas = false)
 
 # a parametric Rx gate (its angle is treated as a variational parameter)
 para_Rx = RxGate(n, θ; isparas = true)
+
+# Toffoli gate (CCNOT)
+c1 = 3
+c2 = 2
+tgt = 4
+Toffoli = TOFFOLIGate(c1, c2, tgt)
+
+# FSIM Gate
+non_para_fsim = FSIMGate(2, 3, pi/4, pi/3; isparas=[false, false])
+para_fsim_1 = FSIMGate(4, 5, pi/6, pi/4; isparas=[true, false])
+para_fsim_2 = FSIMGate(3, 5, pi/9, pi/40; isparas=[false, true])
+para_fsim_3 = FSIMGate(5, 3, pi/10, pi/33; isparas=[true, true])
 ```
 
