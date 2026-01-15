@@ -1,5 +1,8 @@
 {
   "julia.format.enable": true,
   // 指定使用 JuliaFormatter
-  "julia.format.provider": "JuliaFormatter"
+  "julia.format.provider": "JuliaFormatter",
+  "julia.executablePath": "D:\\Julia-1.10.9\\bin\\julia.exe",
+  "julia.languageServerExecutablePath": "D:\\Julia-1.10.9\\bin\\julia.exe",
+  "julia.environmentPath": "C:\\Users\\HW\\.julia\\environments\\v1.10"
 }
