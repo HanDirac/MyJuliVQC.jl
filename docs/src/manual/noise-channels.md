@@ -22,16 +22,16 @@ where:
 
 - `kraus` is a vector of matrices
 
-<div align="center">
-{ K<sub>ℓ</sub> }
-</div>
-
+$$
+K_{\ell}
+$$
 
 representing the channel through
 
-<div align="center">
-ρ ↦ ∑<sub>ℓ</sub> K<sub>ℓ</sub> ρ K<sub>ℓ</sub><sup>†</sup>.
-</div>
+$$
+\rho \mapsto \sum_{\ell} K_{\ell}\,\rho\,K_{\ell}^{\dagger}.
+$$
+
 
 This interface allows the user to define arbitrary custom noise models, from single-qubit decoherence to multi-qubit correlated channels.
 
