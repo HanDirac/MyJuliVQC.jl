@@ -28,11 +28,11 @@ fuse_gates(circ::QCircuit) :: QCircuit
   Performs a **preliminary noiseless simplification** of the circuit.  
   If a **single-qubit gate** is adjacent to a **two-qubit gate** and acts on one
   of its qubits, it is *absorbed* into the two-qubit gate by matrix multiplication.  
-  Key points:
-  - Only applies to **noiseless** circuits (no `QuantumMap` allowed).
-  - Absorption is **local** and **adjacency-based** (left and/or right neighbor).
-  - A fused two-qubit gate becomes a general `QuantumGate` with an updated 4×4 matrix.
-  - Intended as a light-weight preprocessing step before simulation or training.
+  Only **adjacent** single-qubit gates are absorbed; the scan proceeds
+  from left to right, and earlier two-qubit gates have higher absorption priority.  
+  After simplification, all gates will be **non-parametric** `QuantumGate`s
+  (if a gate was originally a specialized type, it will degrade into a general `QuantumGate` after fusion). 
+  For a concrete example of `fuse_gates`, please click <https://github.com/HanDirac/MyJuliVQC.jl/blob/main/test/test_fuse_gates.jl>.
 
 These utilities support common workflows such as:
 - extracting the optimization parameter vector,
