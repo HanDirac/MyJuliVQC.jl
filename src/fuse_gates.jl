@@ -53,9 +53,9 @@ using ..MyJuliVQC: QuantumGate, QuantumMap, QCircuit
             p1, p2 = p12
             I2 = _I2(T)
             if q == p1
-                K = kron(U, I2)  # U on first slot
+                K = kron(I2, U)  # U on faster slot
             elseif q == p2
-                K = kron(I2, U)  # U on second slot
+                K = kron(U, I2)  # U on slower slot
             else
                 return false  # Different qubit — cannot absorb
             end

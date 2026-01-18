@@ -18,8 +18,8 @@ RxU(θ; T=ComplexF64) = T[cos(θ/2) -im*sin(θ/2);
                          -im*sin(θ/2)  cos(θ/2)]
 
 # --- 2-qubit Kronecker embedding ---
-kronL(U, T=ComplexF64) = kron(U, I2(T))  # acts on the first qubit of the pair
-kronR(U, T=ComplexF64) = kron(I2(T), U)  # acts on the second qubit
+kronL(U, T=ComplexF64) = kron(I2(T), U)  # acts on the first qubit of the pair
+kronR(U, T=ComplexF64) = kron(U, I2(T))  # acts on the second qubit
 
 # --- absorption utility: given a 2-qubit matrix M and a 1-qubit U, 
 #     compute the absorbed matrix according to side = :left / :right
@@ -52,13 +52,13 @@ end
         XGate(3),                                 # 10 1q
         TOFFOLIGate(1, 2, 3),                     # 11 three-qubit (never absorbs)
         YGate(1),                                 # 12 1q (absorbed by final CNOT as a left neighbor)
-        CNOTGate(1, 2)                            # 13 two-qubit
+        CNOTGate(2, 1)                            # 13 two-qubit
     ])
 
     fused = MyJuliVQC.fuse_gates(circ)
 
     # Expected structure (from left to right):
-    # 1) CNOT(1,2) absorbs its right-neighbor X(2) → (I⊗X) * CNOT
+    # 1) CNOT(1,2) absorbs its right-neighbor X(2) → (X⊗I) * CNOT
     # 2) Z(2) is absorbed by the FSIM and therefore removed
     # 3) FSIM(2,3) absorbs left Z(2) (right-multiplied), 
     #    then absorbs right RxGate(2) (left-multiplied)
@@ -67,7 +67,7 @@ end
     # 6) CZ(2,3) absorbs right X(3) (left-multiplied)
     # 7) TOFFOLI unchanged
     # 8) Y(1) is absorbed by the final CNOT and thus removed
-    # 9) final CNOT(1,2) absorbs left Y(1) (right-multiplied)
+    # 9) final CNOT(2,1) absorbs left Y(1) (right-multiplied)
     #
     # So fused should contain: 7 elements (all QuantumGate)
     @test fused isa MyJuliVQC.QCircuit
@@ -75,18 +75,18 @@ end
     @test all(x -> x isa MyJuliVQC.QuantumGate, fused.operations)
 
     # Check qubit positions
-    @test q(fused[1]) == [1, 2]     # CNOT(1,2) ⊗ absorb X(2)
-    @test q(fused[2]) == [2, 3]     # FSIM(2,3) ⊗ absorb Z(2) and RxGate(2)
-    @test q(fused[3]) == [1, 2]     # CRxGate(1,2) ⊗ absorb H(2)
+    @test q(fused[1]) == [1, 2]     # CNOT(1,2) absorb X(2)
+    @test q(fused[2]) == [2, 3]     # FSIM(2,3) absorb Z(2) and RxGate(2)
+    @test q(fused[3]) == [1, 2]     # CRxGate(1,2) absorb H(2)
     @test q(fused[4]) == [1]        # S(1)
-    @test q(fused[5]) == [2, 3]     # CZ(2,3) ⊗ absorb X(3)
+    @test q(fused[5]) == [2, 3]     # CZ(2,3) absorb X(3)
     @test q(fused[6]) == [1, 2, 3]  # TOFFOLI(1,2,3)
-    @test q(fused[7]) == [1, 2]     # CNOT(1,2) ⊗ absorb Y(1)
+    @test q(fused[7]) == [2, 1]     # CNOT(2,1) absorb Y(1)
 
     # Numerically validate matrices
     atol = 1e-10
 
-    # 1) (I ⊗ X) * CNOT(1,2)
+    # 1) (X ⊗ I) * CNOT(1,2)
     M1_expect = absorb_matrix(m(CNOTGate(1,2)), XU(); on=:p2, side=:left)
     @test isapprox(m(fused[1]), M1_expect; atol=atol, rtol=0)
 
@@ -96,22 +96,22 @@ end
                               RxU(θ_rx); on=:p1, side=:left)
     @test isapprox(m(fused[2]), M2_expect; atol=atol, rtol=0)
 
-    # 3) (I ⊗ H) * CRxGate(1,2,π/4)
+    # 3) (H ⊗ I) * CRxGate(1,2,π/4)
     M3_expect = absorb_matrix(m(CRxGate(1,2, π/4; isparas=false)), HU(); on=:p2, side=:left)
     @test isapprox(m(fused[3]), M3_expect; atol=atol, rtol=0)
 
     # 4) S(1) unchanged
     @test isapprox(m(fused[4]), m(SGate(1)); atol=atol, rtol=0)
 
-    # 5) (I ⊗ X) * CZ(2,3)
+    # 5) (X ⊗ I) * CZ(2,3)
     M5_expect = absorb_matrix(m(CZGate(2,3)), XU(); on=:p2, side=:left)
     @test isapprox(m(fused[5]), M5_expect; atol=atol, rtol=0)
 
     # 6) TOFFOLI unchanged
     @test isapprox(m(fused[6]), m(TOFFOLIGate(1,2,3)); atol=atol, rtol=0)
 
-    # 7) CNOT(1,2) * (Y(1) ⊗ I)
-    M7_expect = absorb_matrix(m(CNOTGate(1,2)), YU(); on=:p1, side=:right)
+    # 7) CNOT(2,1) * (Y(1) ⊗ I)
+    M7_expect = absorb_matrix(m(CNOTGate(2,1)), YU(); on=:p2, side=:right)
     @test isapprox(m(fused[7]), M7_expect; atol=atol, rtol=0)
 end
 
