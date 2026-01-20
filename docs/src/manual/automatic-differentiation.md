@@ -58,13 +58,7 @@ end
 L = 3
 ψ0 = StateVector(L)       # |000⟩
 H  = heisenberg_1d(L)     # user-defined helper that builds a QubitsOperator
-```
 
-### Step 2 – Wrap the loss using LossExpectationRealSV / LossExpectationRealDM
-
-For **pure-state** simulations:
-
-```julia
 circ = QCircuit()
 for i in 1:2
     push!(circ, CNOTGate(i, i+1))
@@ -73,6 +67,13 @@ for i in 1:3
     push!(circ, RyGate(i, randn(); isparas=true))
 end
 
+```
+
+### Step 2 – Wrap the loss using LossExpectationRealSV / LossExpectationRealDM
+
+For **pure-state** simulations:
+
+```julia
 loss_obj = LossExpectationRealSV(H, ψ0)
 
 # This object is callable: loss_obj(circ) = real(⟨ψ0| C(θ)† H C(θ) |ψ0⟩)
