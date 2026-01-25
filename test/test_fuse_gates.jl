@@ -137,3 +137,52 @@ end
     @test_throws ArgumentError fg(c4)
 end
 
+# ------------------------------------------------------------
+# Functional equivalence test: apply(circ, st) == apply(fused, st)
+# ------------------------------------------------------------
+@testset "fuse_gates: apply equivalence on a concrete StateVector" begin
+    θ_fsim = π/5
+    ϕ_fsim = π/6
+    θ_rx   = π/3
+
+    # Original large circuit (contains adjacent/non-adjacent 1q & 2q gates,
+    # including parameterized and special-purpose gates)
+    circ = QCircuit([
+        CNOTGate(1, 2),                           # 1  two-qubit
+        XGate(2),                                 # 2  1q (adjacent; can be absorbed by above CNOT)
+        ZGate(2),                                 # 3  1q (non-adjacent to CNOT; cannot be absorbed by it)
+        FSIMGate(2, 3, θ_fsim, ϕ_fsim; isparas=[true, true]),  # 4 two-qubit (absorbs Z(2), then RxGate(2))
+        RxGate(2, θ_rx; isparas=true),                # 5  1q (adjacent on the right of FSIM)
+        CRxGate(1, 2, π/4; isparas=false),            # 6  two-qubit (non-parametric, absorbs right H(2))
+        HGate(2),                                 # 7  1q
+        SGate(1),                                 # 8  1q (on different qubit than upcoming CZ → not absorbed)
+        CZGate(2, 3),                             # 9  two-qubit (absorbs right X(3))
+        XGate(3),                                 # 10 1q
+        TOFFOLIGate(1, 2, 3),                     # 11 three-qubit (never absorbs)
+        YGate(1),                                 # 12 1q (absorbed by final CNOT as a left neighbor)
+        CNOTGate(2, 1)                            # 13 two-qubit
+    ])
+
+    fused = MyJuliVQC.fuse_gates(circ)
+
+    # Define vec = normalized([1, 2i, 3, 4i, 5, 6i, 7, 8i])
+    vec = normalize(ComplexF64[
+        1, 2im, 3, 4im, 5, 6im, 7, 8im
+    ])
+
+    # Define st = StateVector(vec)
+    st = StateVector(vec)
+
+    # Apply both circuits
+    out1 = apply(circ, st)
+    out2 = apply(fused, st)
+
+    # They should match (up to numerical tolerance)
+    atol = 1e-10
+    @test isapprox(out1.data, out2.data; atol=atol, rtol=0)
+
+    # Optional: sanity check norm is preserved
+    @test isapprox(norm(out1.data), 1.0; atol=atol, rtol=0)
+    @test isapprox(norm(out2.data), 1.0; atol=atol, rtol=0)
+end
+
