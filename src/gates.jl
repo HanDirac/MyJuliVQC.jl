@@ -67,6 +67,13 @@ function CONTROLCONTROLGate(c1::Int, c2::Int, tgt::Int; U::AbstractMatrix{S}, el
     return QuantumGate((c1, c2, tgt), mat)
 end
 
+CONTROLGate(pos::Tuple{Int,Int}; U::AbstractMatrix{S}, elty::Type=ComplexF64) where {S} =
+    CONTROLGate(pos[1], pos[2]; U=U, elty=elty)
+
+CONTROLCONTROLGate(pos::Tuple{Int,Int,Int}; U::AbstractMatrix{S}, elty::Type=ComplexF64) where {S} =
+    CONTROLCONTROLGate(pos[1], pos[2], pos[3]; U=U, elty=elty)
+
+
 # --- Standard single-qubit gates -------------------------------------------
 
 function XGate(n::Int; T::Type=ComplexF64)
@@ -109,6 +116,17 @@ function sqrtYGate(n::Int; T::Type=ComplexF64)
     return QuantumGate((n,), mat)
 end
 
+# --- Overloads: accept tuple positions for 1-qubit non-parametric gates ----
+XGate(pos::Tuple{Int}; T::Type=ComplexF64) = XGate(pos[1]; T=T)
+YGate(pos::Tuple{Int}; T::Type=ComplexF64) = YGate(pos[1]; T=T)
+ZGate(pos::Tuple{Int}; T::Type=ComplexF64) = ZGate(pos[1]; T=T)
+HGate(pos::Tuple{Int}; T::Type=ComplexF64) = HGate(pos[1]; T=T)
+SGate(pos::Tuple{Int}; T::Type=ComplexF64) = SGate(pos[1]; T=T)
+TGate(pos::Tuple{Int}; T::Type=ComplexF64) = TGate(pos[1]; T=T)
+sqrtXGate(pos::Tuple{Int}; T::Type=ComplexF64) = sqrtXGate(pos[1]; T=T)
+sqrtYGate(pos::Tuple{Int}; T::Type=ComplexF64) = sqrtYGate(pos[1]; T=T)
+
+
 # --- Single-qubit rotation gates -------------------------------------------
 
 # RxGate(θ)
@@ -143,6 +161,17 @@ function RzGate(n::Int, theta=0.0; T::Type=ComplexF64, isparas=false)
     end
     return _paramify(T, theta, isparas, builder)
 end
+
+# --- Overloads: accept tuple positions for 1-qubit rotation gates ----------
+RxGate(pos::Tuple{Int}, theta=0.0; T::Type=ComplexF64, isparas=false) =
+    RxGate(pos[1], theta; T=T, isparas=isparas)
+
+RyGate(pos::Tuple{Int}, theta=0.0; T::Type=ComplexF64, isparas=false) =
+    RyGate(pos[1], theta; T=T, isparas=isparas)
+
+RzGate(pos::Tuple{Int}, theta=0.0; T::Type=ComplexF64, isparas=false) =
+    RzGate(pos[1], theta; T=T, isparas=isparas)
+
 
 # --- Controlled rotation gates (optionally parametric) ----------------------
 
@@ -189,6 +218,17 @@ function CRzGate(ctrl::Int, tgt::Int, theta=0.0; T::Type=ComplexF64, isparas=fal
     return _paramify(T, theta, isparas, builder)
 end
 
+# --- Overloads: accept tuple positions for 2-qubit controlled rotation gates
+CRxGate(pos::Tuple{Int,Int}, theta=0.0; T::Type=ComplexF64, isparas=false) =
+    CRxGate(pos[1], pos[2], theta; T=T, isparas=isparas)
+
+CRyGate(pos::Tuple{Int,Int}, theta=0.0; T::Type=ComplexF64, isparas=false) =
+    CRyGate(pos[1], pos[2], theta; T=T, isparas=isparas)
+
+CRzGate(pos::Tuple{Int,Int}, theta=0.0; T::Type=ComplexF64, isparas=false) =
+    CRzGate(pos[1], pos[2], theta; T=T, isparas=isparas)
+
+    
 # --- Two-qubit gates (non-parametric) --------------------------------------
 
 function SWAPGate(q1::Int, q2::Int; T::Type=ComplexF64)
@@ -226,6 +266,13 @@ function CZGate(q1::Int, q2::Int; T::Type=ComplexF64)
     return QuantumGate((q1, q2), mat)
 end
 
+# --- Overloads: accept tuple positions for 2-qubit non-parametric gates -----
+SWAPGate(pos::Tuple{Int,Int}; T::Type=ComplexF64)  = SWAPGate(pos[1], pos[2]; T=T)
+iSWAPGate(pos::Tuple{Int,Int}; T::Type=ComplexF64) = iSWAPGate(pos[1], pos[2]; T=T)
+CNOTGate(pos::Tuple{Int,Int}; T::Type=ComplexF64)  = CNOTGate(pos[1], pos[2]; T=T)
+CZGate(pos::Tuple{Int,Int}; T::Type=ComplexF64)    = CZGate(pos[1], pos[2]; T=T)
+
+
 # --- Three-qubit gates (non-parametric) -------------------------------------
 
 # Toffoli gate (CCNOT)
@@ -258,6 +305,14 @@ function FREDKINGate(ctrl::Int, tgt1::Int, tgt2::Int; T::Type=ComplexF64)
     return QuantumGate((ctrl, tgt1, tgt2), mat)
 end
 
+# --- Overloads: accept tuple positions for 3-qubit non-parametric gates -----
+TOFFOLIGate(pos::Tuple{Int,Int,Int}; T::Type=ComplexF64) =
+    TOFFOLIGate(pos[1], pos[2], pos[3]; T=T)
+
+FREDKINGate(pos::Tuple{Int,Int,Int}; T::Type=ComplexF64) =
+    FREDKINGate(pos[1], pos[2], pos[3]; T=T)
+
+
 # --- FSIM (optionally parametric)----------------------------------------------------
 # Since the origin of the five-parameter version in Weiyou Liao's paper is unclear for now,
 # we implement the Google Cirq form first.
@@ -279,4 +334,10 @@ function FSIMGate(q1::Int, q2::Int, theta=0.0, phi=0.0; T::Type=ComplexF64, ispa
     end
     return _paramify(T, paras, isparas, builder)
 end
+
+# --- Overloads: accept tuple positions for FSIM (2-qubit, optionally parametric)
+FSIMGate(pos::Tuple{Int,Int}, theta=0.0, phi=0.0; T::Type=ComplexF64, isparas=[false,false]) =
+    FSIMGate(pos[1], pos[2], theta, phi; T=T, isparas=isparas)
+
+
 end 

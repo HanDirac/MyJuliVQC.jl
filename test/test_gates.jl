@@ -50,6 +50,39 @@ q(g) = MyJuliVQC.qubits(g)
         g = sqrtYGate(5)
         @test q(g) == [5]
         @test m(g) ≈ sqrtY()
+
+                # --- tuple-position overloads: G((i,)) ---
+        g = XGate((1,))
+        @test q(g) == [1]
+        @test m(g) == X()
+
+        g = YGate((2,))
+        @test q(g) == [2]
+        @test m(g) == Y()
+
+        g = ZGate((3,))
+        @test q(g) == [3]
+        @test m(g) == Z()
+
+        g = HGate((1,))
+        @test q(g) == [1]
+        @test m(g) ≈ H()
+
+        g = SGate((1,))
+        @test q(g) == [1]
+        @test m(g) == S()
+
+        g = TGate((1,))
+        @test q(g) == [1]
+        @test m(g) == Tg()
+
+        g = sqrtXGate((4,))
+        @test q(g) == [4]
+        @test m(g) ≈ sqrtX()
+
+        g = sqrtYGate((5,))
+        @test q(g) == [5]
+        @test m(g) ≈ sqrtY()
     end
 end
 
@@ -71,6 +104,28 @@ end
     ]
 
     g = RzGate(3, θ)
+    @test q(g) == [3]
+    @test m(g) ≈ ComplexF64[
+        exp(-im*θ/2)  0;
+        0             exp( im*θ/2)
+    ]
+
+        # --- tuple-position overloads: Rx/Ry/Rz((i,), θ) ---
+    g = RxGate((1,), θ)
+    @test q(g) == [1]
+    @test m(g) ≈ ComplexF64[
+        cos(θ/2)       -im*sin(θ/2);
+        -im*sin(θ/2)    cos(θ/2)
+    ]
+
+    g = RyGate((2,), θ)
+    @test q(g) == [2]
+    @test m(g) ≈ ComplexF64[
+        cos(θ/2)   -sin(θ/2);
+        sin(θ/2)    cos(θ/2)
+    ]
+
+    g = RzGate((3,), θ)
     @test q(g) == [3]
     @test m(g) ≈ ComplexF64[
         exp(-im*θ/2)  0;
@@ -101,6 +156,23 @@ end
         exp(-im*θ/2)  0;
         0             exp( im*θ/2)
     ]
+
+        # --- tuple-position overloads: parametric Rx/Ry/Rz((i,), θ; isparas=...) ---
+    desc_t = RxGate((4,), θ; isparas=true)
+    @test desc_t isa MyJuliVQC.Gates.ParamOp
+    @test desc_t.params[1] == θ
+    @test desc_t.mask == BitVector([true])
+    g_t = desc_t([π/2])
+    @test q(g_t) == [4]
+
+    # fixed parameter via isparas=[false] should return concrete QuantumGate
+    g_fixed = RzGate((2,), θ; isparas=[false])
+    @test g_fixed isa MyJuliVQC.QuantumGate
+    @test q(g_fixed) == [2]
+    @test m(g_fixed) ≈ ComplexF64[
+        exp(-im*θ/2)  0;
+        0             exp( im*θ/2)
+    ]
 end
 
 @testset "Gates: controlled rotations (matrix & parameterization)" begin
@@ -115,6 +187,35 @@ end
             0 0 1 0;  
             0 -im*sin(θ/2) 0  cos(θ/2)
         ]
+
+        # --- tuple-position overloads: CRx/CRy/CRz((i,j), θ) ---
+    g = CRxGate((1, 2), θ)
+    @test q(g) == [1, 2]
+    @test m(g) ≈ ComplexF64[
+        1 0 0 0;
+        0 cos(θ/2) 0 -im*sin(θ/2);
+        0 0 1 0;
+        0 -im*sin(θ/2) 0 cos(θ/2)
+    ]
+
+    g = CRyGate((2, 3), θ)
+    @test q(g) == [2, 3]
+    @test m(g) ≈ ComplexF64[
+        1 0 0 0;
+        0 cos(θ/2) 0 -sin(θ/2);
+        0 0 1 0;
+        0 sin(θ/2) 0 cos(θ/2)
+    ]
+
+    g = CRzGate((3, 1), θ)
+    @test q(g) == [3, 1]
+    @test m(g) ≈ ComplexF64[
+        1 0 0 0;
+        0 exp(-im*θ/2) 0 0;
+        0 0 1 0;
+        0 0 0 exp(im*θ/2)
+    ]
+        
     # parameterized CRyGate
     desc = CRyGate(2, 3, θ; isparas=true)
     #@test haskey(desc, :params) && haskey(desc, :mask) && haskey(desc, :build)
@@ -126,6 +227,14 @@ end
         0 0 1 0  ;
         0 sin(π/6) 0  cos(π/6)
     ]
+
+        # --- tuple-position overload: parametric CRyGate((i,j), θ; isparas=true) ---
+    desc_t = CRyGate((2, 3), θ; isparas=true)
+    @test desc_t isa MyJuliVQC.Gates.ParamOp
+    @test desc_t.params[1] == θ
+    @test desc_t.mask == BitVector([true])
+    g_t = desc_t.build([π/3])
+    @test q(g_t) == [2, 3]
 
     # CRzGate with fixed parameter (mask=false)
     desc2 = CRzGate(3, 1, θ; isparas=[false])
@@ -174,6 +283,43 @@ end
         0 0 1 0;
         0 0 0 -1
     ]
+
+        # --- tuple-position overloads: 2-qubit fixed gates ---
+    g = SWAPGate((1, 3))
+    @test q(g) == [1, 3]
+    @test m(g) == ComplexF64[
+        1 0 0 0;
+        0 0 1 0;
+        0 1 0 0;
+        0 0 0 1
+    ]
+
+    g = iSWAPGate((2, 4))
+    @test q(g) == [2, 4]
+    @test m(g) == ComplexF64[
+        1 0 0 0;
+        0 0 im 0;
+        0 im 0 0;
+        0 0 0 1
+    ]
+
+    g = CNOTGate((1, 2))
+    @test q(g) == [1, 2]
+    @test m(g) == ComplexF64[
+        1 0 0 0;
+        0 0 0 1;
+        0 0 1 0;
+        0 1 0 0
+    ]
+
+    g = CZGate((2, 1))
+    @test q(g) == [2, 1]
+    @test m(g) == ComplexF64[
+        1 0 0 0;
+        0 1 0 0;
+        0 0 1 0;
+        0 0 0 -1
+    ]
 end
 
 @testset "Gates: 3-qubit fixed" begin
@@ -208,6 +354,25 @@ F_expected = ComplexF64[
 gF = FREDKINGate(1, 2, 3)
 @test q(gF) == [1, 2, 3]
 @test m(gF) == F_expected
+
+        # --- tuple-position overloads: 3-qubit fixed gates ---
+    g = TOFFOLIGate((1, 2, 3))
+    @test q(g) == [1, 2, 3]
+    @test m(g) == ComplexF64[
+        1 0 0 0 0 0 0 0;
+        0 1 0 0 0 0 0 0;
+        0 0 1 0 0 0 0 0;
+        0 0 0 0 0 0 0 1;
+        0 0 0 0 1 0 0 0;
+        0 0 0 0 0 1 0 0;
+        0 0 0 0 0 0 1 0;
+        0 0 0 1 0 0 0 0
+    ]
+
+    gF2 = FREDKINGate((1, 2, 3))
+    @test q(gF2) == [1, 2, 3]
+    @test m(gF2) == F_expected
+
 end
 
 @testset "Gates: generic CONTROL/CONTROLCONTROL helpers" begin
@@ -233,6 +398,30 @@ end
         0 0 0 0 0 0 1 0;  
         0 0 0 1 0 0 0 0 
     ]
+
+        # --- tuple-position overloads for generic helpers ---
+    g = CONTROLGate((1, 2); U=Y())
+    @test q(g) == [1, 2]
+    @test m(g) == ComplexF64[
+        1 0 0 0;
+        0 0 0 -im;
+        0 0 1 0;
+        0 im 0  0
+    ]
+
+    g2 = CONTROLCONTROLGate((1, 2, 3); U=X())
+    @test q(g2) == [1, 2, 3]
+    @test m(g2) == ComplexF64[
+        1 0 0 0 0 0 0 0;
+        0 1 0 0 0 0 0 0;
+        0 0 1 0 0 0 0 0;
+        0 0 0 0 0 0 0 1;
+        0 0 0 0 1 0 0 0;
+        0 0 0 0 0 1 0 0;
+        0 0 0 0 0 0 1 0;
+        0 0 0 1 0 0 0 0
+    ]
+
 end
 
 @testset "Gates: FSIM matrix & parameterization" begin
@@ -242,6 +431,16 @@ end
     a = cos(θ)
     b = -im * sin(θ)
     c = exp(-im*ϕ)
+    @test m(g) ≈ ComplexF64[
+        1 0 0 0;
+        0 a b 0;
+        0 b a 0;
+        0 0 0 c
+    ]
+
+        # --- tuple-position overloads: FSIMGate((i,j), θ, ϕ) ---
+    g = FSIMGate((1, 2), θ, ϕ)
+    @test q(g) == [1, 2]
     @test m(g) ≈ ComplexF64[
         1 0 0 0;
         0 a b 0;
@@ -262,6 +461,14 @@ end
         0 -im*sin(π/3) cos(π/3) 0;
         0 0 0 exp(-im*π/10)
     ]
+
+        # --- tuple-position overload: parametric FSIMGate((i,j), ...; isparas=...) ---
+    desc_t = FSIMGate((2, 3), θ, ϕ; isparas=[true, true])
+    @test desc_t isa MyJuliVQC.Gates.ParamOp
+    @test desc_t.params ≈ [θ, ϕ]
+    @test desc_t.mask == BitVector([true, true])
+    g_t = desc_t.build([π/3, π/10])
+    @test q(g_t) == [2, 3]
 
     # only θ is active
     desc2 = FSIMGate(3, 4, θ, ϕ; isparas=[true, false])
