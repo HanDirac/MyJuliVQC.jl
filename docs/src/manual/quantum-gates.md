@@ -119,12 +119,12 @@ kernels for some of these gates, but the public API will remain the same.
 
 MyJuliVQC supports generic controlled operations via dedicated constructors:
 
-- `CONTROLGate(i, j, data)`: a controlled single-qubit gate  
+- `CONTROLGate(i, j; U=data)`: a controlled single-qubit gate  
   - `i`: control qubit  
   - `j`: target qubit  
   - `data`: the `2×2` matrix of the target single-qubit operation
 
-- `CONTROLCONTROLGate(i, j, k, data)`: a doubly controlled single-qubit gate  
+- `CONTROLCONTROLGate(i, j, k；U=data)`: a doubly controlled single-qubit gate  
   - `i`, `j`: control qubits  
   - `k`: target qubit  
   - `data`: again the `2×2` matrix acting on the target qubit
