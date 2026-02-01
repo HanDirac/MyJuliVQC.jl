@@ -49,9 +49,9 @@ circuit = QCircuit()
 
 # Layer 1: single-qubit rotations
 for i in 1:L
-    push!(circuit, RzGate(i, rand(), isparas=true))
-    push!(circuit, RyGate(i, rand(), isparas=true))
-    push!(circuit, RzGate(i, rand(), isparas=true))
+    push!(circuit, RzGate(i, rand(); isparas=true))
+    push!(circuit, RyGate(i, rand(); isparas=true))
+    push!(circuit, RzGate(i, rand(); isparas=true))
 end
 
 # Layer 2: entangling + rotations
@@ -59,7 +59,7 @@ for i in 1:L-1
     push!(circuit, CNOTGate(i, i+1))
 end
 for i in 1:L
-    push!(circuit, RxGate(i, rand(), isparas=true))
+    push!(circuit, RxGate(i, rand(); isparas=true))
 end
 
 # 3. define a simple operator H
