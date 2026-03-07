@@ -26,14 +26,14 @@ end
 
 function Depolarizing(pos::Integer; p,
         elty::Type=ComplexF64, check_tp::Bool=true)
-    0 ≤ p ≤ 4/3 || throw(ArgumentError("p must be in [0,4/3], got $p"))
+    0 ≤ p ≤ 1 || throw(ArgumentError("p must be in [0,1], got $p"))
     T  = elty
     I2 = Matrix{T}(I, 2, 2)
     X  = T[0 1; 1 0]
     Y  = T[0 -im; im 0]
     Z  = T[1 0; 0 -1]
-    a0 = sqrt(T(1) - T(3)*T(p)/T(4))
-    a  = sqrt(T(p)/T(4))
+    a0 = sqrt(T(1) - T(p))
+    a  = sqrt(T(p)/T(3))
     K0, K1, K2, K3 = a0 .* I2, a .* X, a .* Y, a .* Z
     QuantumMap(pos, (K0, K1, K2, K3); elty=T, check_tp=check_tp)
 end

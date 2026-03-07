@@ -113,10 +113,10 @@ end
     S = K0' * K0 + K1' * K1
     @test isapprox(S, I2(); atol=1e-10, rtol=0)
 
-    # Depolarizing（common parametrization:K0=√(1-3p/4)I，Ki=√(p/4){X,Y,Z}）
+    # Depolarizing（common parametrization:K0=√(1-p)I，Ki=√(p/3){X,Y,Z}）
     p = 0.4
-    K0 = sqrt(1 - 3p/4) * I2()
-    s  = sqrt(p/4)
+    K0 = sqrt(1 - p) * I2()
+    s  = sqrt(p/3)
     K1, K2, K3 = s*X(), s*Y(), s*Z()
     Mdep = MyJuliVQC.QuantumMap(1, (K0, K1, K2, K3))
     Sdep = K0'K0 + K1'K1 + K2'K2 + K3'K3

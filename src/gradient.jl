@@ -232,8 +232,8 @@ function _gradient_expectation_svec(op::QubitsOperator, circ::QCircuit, ψ0::Sta
         L = layers[j]
 
         # Roll back Φ: ψ_{j-1} = Q_j^{-1} ψ_j
-        # For noiseless gates, U^{-1} = U'; here we generally use inv(U)
-        _apply_gate!(Φ.data, L.pos, inv(L.U))
+        # For noiseless gates, U^{-1} = U'; here we use U' for performance and numerical stability
+        _apply_gate!(Φ.data, L.pos, (L.U)')
 
         # Accumulate contributions for all active parameters in this layer
         for k in L.param_idx
@@ -243,7 +243,7 @@ function _gradient_expectation_svec(op::QubitsOperator, circ::QCircuit, ψ0::Sta
         end
 
         # Roll back Ψ：Ψ_{j-1} = Q_j' Ψ_j
-        _apply_gate!(Ψ.data, L.pos, inv(L.U))
+        _apply_gate!(Ψ.data, L.pos, (L.U)')
     end
 
     return reverse(grads) 

@@ -88,8 +88,8 @@ end
     end
     @test isapprox(S, I2(); atol=TP_ATOL_F64, rtol=0)
 
-    # p = 4/3 → K0 = 0, the others each have weight √(1/3)·{X,Y,Z}, still TP
-    Mmax = MyJuliVQC.Depolarizing(1; p=4/3)
+    # p = 1 → K0 = 0, the others each have weight √(1/3)·{X,Y,Z}, still TP
+    Mmax = MyJuliVQC.Depolarizing(1; p=1.0)
     Ks = kraus(Mmax)
     S = zero(Ks[1])
     for K in Ks
@@ -107,7 +107,7 @@ end
     end
     @test isapprox(S, I2(ComplexF32); atol=TP_ATOL_F32, rtol=0)
 
-    # invalid p (<0 or >4/3)
+    # invalid p (<0 or >1)
     @test_throws ArgumentError MyJuliVQC.Depolarizing(1; p=-1e-3)
     @test_throws ArgumentError MyJuliVQC.Depolarizing(1; p=1.5)
 
