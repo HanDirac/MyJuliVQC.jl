@@ -3,7 +3,7 @@ using MyJuliVQC
 using Test
 
 include(joinpath(@__DIR__, "test_statevector.jl"))
-#（Currently densitymatrix.jl has a known bug, so the test is temporarily disabled）include(joinpath(@__DIR__, "test_densitymatrix.jl"))
+include(joinpath(@__DIR__, "test_densitymatrix.jl"))
 include(joinpath(@__DIR__, "test_quantumgate.jl"))
 include(joinpath(@__DIR__, "test_gates.jl"))
 include(joinpath(@__DIR__, "test_quantummap.jl"))
@@ -19,3 +19,4 @@ include(joinpath(@__DIR__, "test_apply!_statevector.jl"))
 include(joinpath(@__DIR__, "test_measure!.jl"))
 include(joinpath(@__DIR__, "test_expectation.jl"))
 include(joinpath(@__DIR__, "test_gradient.jl"))
+include(joinpath(@__DIR__, "test_gradient_added.jl"))

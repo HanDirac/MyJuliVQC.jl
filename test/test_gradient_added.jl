@@ -1,17 +1,17 @@
+using Test
 using MyJuliVQC
 
 const gradientMJVQC = MyJuliVQC.gradient
 
-log_path = "grad_desc_log_noisy.txt"
-io = open(log_path, "w")   
+#log_path = "grad_desc_log_noisy.txt"
+#io = open(log_path, "w")   
 
-function logprintln(io::IO, args...)
-    println(args...)           # stdout
-    println(io, args...)       # file
-    flush(io)                  
-end
-
-try
+#function logprintln(io::IO, args...)
+#    println(args...)           # stdout
+#    println(io, args...)       # file
+#    flush(io)                  
+#end
+@testset "Compare noisy gradient with PennyLane" begin
 
 # -----------------------------
 # 1. Problem setup
@@ -87,24 +87,35 @@ end
     # 4. Gradient-descent loop
     # -----------------------------
     η      = 0.01
-    epochs = 1000
+    epochs = 1
 
-    logprintln(io, "Start training: L=$L, depth=$depth, η=$η, epochs=$epochs")
-    logprintln(io, "Log file: $(abspath(log_path))")
+    #logprintln(io, "Start training: L=$L, depth=$depth, η=$η, epochs=$epochs")
+    #logprintln(io, "Log file: $(abspath(log_path))")
 
     for epoch in 1:epochs
         gθ = gradientMJVQC(loss_obj, circuit)
-        logprintln(io, "Epoch $epoch: gradient = $gθ")
-        θ .-= η .* gθ
-        reset_parameters!(circuit, θ)
+        gθ_ref = [ 7.81523780e-18, -4.22299617e-01,  3.29406982e-02,  7.81523780e-18,
+ -1.61862269e-01,  1.27115982e-02, -1.00423504e-16,  2.57550759e-01,
+  4.04886744e-02,  3.29406982e-02, -3.92636658e-01, -4.99577485e-03,
+  2.16386042e-02, -3.49062349e-01, -5.45127770e-02,  4.50059994e-02,
+ -1.73069409e-01,  8.98257086e-03, -4.99577485e-03, -3.24104369e-01,
+  3.65028605e-03, -4.22764260e-02, -3.21447173e-01,  1.14307498e-02,
+  5.43280702e-02, -1.70256168e-01, -1.50810359e-02]
+        println("Computed gθ = ", gθ)
+        println("Reference gθ = ", gθ_ref)
 
-        current_loss = loss_obj(circuit)
-        logprintln(io, "Epoch $epoch: loss = $current_loss")
-        logprintln(io, "")
+        @test length(gθ) == length(gθ_ref)
+        @test isapprox(gθ, gθ_ref; rtol=1e-8, atol=1e-8)
+        #logprintln(io, "Epoch $epoch: gradient = $gθ")
+        #θ .-= η .* gθ
+        #reset_parameters!(circuit, θ)
+
+        #current_loss = loss_obj(circuit)
+        #logprintln(io, "Epoch $epoch: loss = $current_loss")
+        #logprintln(io, "")
     end
 
-    logprintln(io, "Finished training.")
+    #logprintln(io, "Finished training.")
 
-finally
-    close(io)  
 end
+
